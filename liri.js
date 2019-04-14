@@ -2,8 +2,8 @@
 
 require("dotenv").config();
 var keys = require("./keys.js");
-var spotify = new Spotify(keys.spotify);
 var Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
 var moment = require("moment");
 var axios = require("axios");
 var fs = require("fs");
@@ -39,18 +39,42 @@ function getConcert() {
     axios.get("https://rest.bandsintown.com/artists/" + userTerm + "/events?app_id=codingbootcamp").then(function (response) {
         var jsonData = response.data[0];
         //moment.js variable to get date and time format//
-        dateGet = moment(jsonData.datetime).format("MM/DD/YYY");
+        dateGet = moment(jsonData.datetime).format("MM/DD/YYYY");
         // variable that will have the concert information//
         var concertGet = `
  Name of the venue: ${chalk.green(jsonData.venue.name)}
  Venue location:    ${chalk.blue(jsonData.venue.city)}    
  Date of the Event: ${chalk.magenta(dateGet)}
  `;
-    
-    console.log(concertGet);
+
+        console.log(concertGet);
 
     });
 
 };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+start();
