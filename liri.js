@@ -30,25 +30,25 @@ function start() {
             getWhat();
             break;
         default:
-            console.log("LIRI does not know that")
+            console.log(chalk.red("LIRI does not know that!"))
     }
 };
 
 //Function to find concerts//
 function getConcert() {
     axios.get("https://rest.bandsintown.com/artists/" + userTerm + "/events?app_id=codingbootcamp")
-    .then(function (response) {
-        var jsonData = response.data[0];
-        //moment.js variable to get date and time format//
-        dateGet = moment(jsonData.datetime).format("MM/DD/YYYY");
-        // variable that will have the concert information//
-        var concertGet = `
+        .then(function (response) {
+            var jsonData = response.data[0];
+            //moment.js variable to get date and time format//
+            dateGet = moment(jsonData.datetime).format("MM/DD/YYYY");
+            // variable that will have the concert information//
+            var concertGet = `
  Name of the venue: ${chalk.cyanBright(jsonData.venue.name)}
  Venue location:    ${chalk.cyanBright(jsonData.venue.city)}    
  Date of the Event: ${chalk.cyanBright(dateGet)}
  `;
-        console.log(concertGet);
-    });
+            console.log(concertGet);
+        });
 };
 
 //function to find songs in Spotify//
@@ -79,10 +79,10 @@ function getMovie() {
     userTerm = userTerm || "Mr Nobody"
     //Axios get call//
     axios.get("http://www.omdbapi.com/?t=" + userTerm + "&y=&plot=short&apikey=trilogy")
-    .then(function(response){
-        var jsonData = response.data;
-        //variable that has all the movie info from OMDB//
-        var movieGet = `
+        .then(function (response) {
+            var jsonData = response.data;
+            //variable that has all the movie info from OMDB//
+            var movieGet = `
 Title:                   ${chalk.magenta(jsonData.Title)}
 Year:                    ${chalk.magenta(jsonData.Year)}
 IMDB Rating:             ${chalk.magenta(jsonData.imdbRating)}
@@ -92,11 +92,22 @@ Language:                ${chalk.magenta(jsonData.Language)}
 Plot:                    ${chalk.magenta(jsonData.Plot)}
 Actors:                  ${chalk.magenta(jsonData.Actors)}
 `;
-        console.log(movieGet);
-    });
+            console.log(movieGet);
+        });
 
 };
 
+// do what it says function//
+function getWhat() {
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        if (err) return console.log(err);
+        var dataArr = data.split(",");
+        userOption = dataArr[0];
+        userTerm = dataArr[1];
+        start();
+    });
+}
+
 
 //start app function//
-start();
+start()
